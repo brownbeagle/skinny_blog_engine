@@ -13,6 +13,5 @@ class PostsController < ApplicationController
   
   def show
     @post = Post.find(params[:id])
-    render :action => 'post_'+@post.id
   end
 end
