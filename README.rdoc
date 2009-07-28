@@ -1,0 +1,20 @@
+= Blog Engine
+
+A minimalist blog engine for your Ruby on Rails site.
+
+= Usage
+
+To post content, create a file in /views/posts with post_ as a prefix to the filename.
+
+For instance, if you want to make a post called Hello World, you would create a file called /views/posts/post_hello_world.html.erb and fill the file with the content of your blog post.
+
+Of course, you can use whatever rendering engine your Rails installation supports.
+
+There's no support for comments, pingbacks, or trackbacks.
+
+= Credits
+
+Blog Engine is maintained by {Alex Pooley}[mailto:alex@brownbeagle.com.au], and is funded by {Brown Beagle Software}[http://www.brownbeagle.com.au].
+
+= License
+Blog Engine is Copyright (c) 2009 Alex Pooley, Brown Beagle Software. It is free software, and may be redistributed under the terms specified in the MIT-LICENSE file.
