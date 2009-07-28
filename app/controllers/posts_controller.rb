@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  caches_page :show
+  # caches_page :show
   
   PAGE_SIZE = 5
   
