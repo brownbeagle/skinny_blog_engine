@@ -4,13 +4,67 @@ A minimalist blog engine for your Ruby on Rails site.
 
 = Usage
 
-To post content, create a file in /views/posts with post_ as a prefix to the filename.
+=== Posting
 
-For instance, if you want to make a post called Hello World, you would create a file called /views/posts/post_hello_world.html.erb and fill the file with the content of your blog post.
+To post content, create a file in app/views/posts with post_ as a prefix to the filename.
 
-Of course, you can use whatever rendering engine your Rails installation supports.
+==== Example
 
-There's no support for comments, pingbacks, or trackbacks.
+If you want to make a post called Hello World, you would create a file called app/views/posts/post_hello_world.html.erb and fill the file with the content of your blog post.
+
+  # app/views/posts/post_hello_world.html.erb
+  <h1>Hello World</h1>
+
+  <p>This is my first blog post using Blog Engine</p>
+
+Any file in app/views/posts matching the pattern of post_* is considered a blog post.
+
+Note that you can use whatever rendering engine your Rails installation supports: Erb, Haml, etc.
+
+=== Posts Index
+
+A default posts index view is provided, but you'll probably want to override this. To do this you create your own app/views/posts/index.html.erb ...
+
+  # app/views/posts/index.html.erb
+  <h1>My Awesome Blog</h1>
+
+  <ul>
+    <% for post in @posts do %>
+    <li><%= link_to post.title, post %> <%= post.updated_at %></li>
+    <% end %>
+  </ul>
+
+The Post class has the following public class methods: all, find(id). The all method will return an array of Post objects, ordered by most recent post first.
+
+Post objects have the following attributes:
+
+  path - The path of the actual post file
+  id - The post name via the path. E.g. post_hello_world.html.erb is hello_world
+  title - A humanized id.
+  updated_at - Time the file was last updated according to File::mtime.
+
+==== ATOM Feed
+
+An ATOM index is built for you automatically as part of the plugin. You can reference the ATOM feed using posts_url(:format=>'atom') ...
+
+  <link rel="alternate" type="application/atom+xml" title="Brown Beagle Software" href="<%= posts_url(:format=>'atom') %>" >
+
+=== Show Post
+
+There's already a default posts/show action in the plugin that renders the post title, date, and content within your default layout. You can override this format easily by creating your own app/views/posts/show.html.erb
+
+Here's what the default app/views/posts/show.html.erb looks like ...
+
+  # app/views/posts/show.html.erb
+  <h1><%= @post.title %></h1>
+  <h2><%= @post.updated_at.strftime('%d %B %Y') %></h2>
+  <%= render :file => 'posts/post_'+@post.id %>
+  
+= TODO
+
+There's no support for comments, pingbacks, or trackbacks yet.
+
+There's also some hard coded file paths and ATOM values in there that I would like to remove eventually.
 
 = Credits
 
