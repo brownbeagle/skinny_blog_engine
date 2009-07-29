@@ -17,8 +17,8 @@ class Post
   # Return all posts, most recent updated first.
   def self.all
     posts = Dir["#{RAILS_ROOT}/app/views/posts/*"]
+    posts = posts.select{|file| File.basename(file) =~ /^post_.+$/}
     posts.map!{|file| Post.new(file)}
-    posts = posts.select{|file| File.basename(file.file) =~ /^post_.+$/}
     posts.sort{|p1,p2| p2.updated_at <=> p1.updated_at}
   end
   
