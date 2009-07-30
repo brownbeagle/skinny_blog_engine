@@ -6,7 +6,7 @@ atom_feed do |feed|
   for post in @posts
     feed.entry(post) do |entry|
       entry.title(post.title)
-      entry.content(render(:action => post.file), :xhtml => true)
+      entry.content(render(post.file), :xhtml => true)
       # entry.author do |author|
       #   entry.name('Site Owner')
       # end
