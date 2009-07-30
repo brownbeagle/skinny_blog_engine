@@ -1,4 +1,4 @@
-= Blog Engine
+= Skinny Blog Engine
 
 A minimalist blog engine for your Ruby on Rails site.
 
