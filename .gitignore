@@ -3,3 +3,5 @@ db/*.sqlite3
 log/*
 tmp
 public/system
+.yardoc
+doc
