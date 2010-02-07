@@ -1,10 +1,11 @@
 class PostsController < ApplicationController
-  # caches_page :show
+  caches_page :show
   
   PAGE_SIZE = 5
   
   def index
-    @posts = Post.all[0,PAGE_SIZE]
+    params[:page] ||= 0
+    @posts = Post.all[params[:page] * PAGE_SIZE,PAGE_SIZE]
     respond_to do |format|
       format.html
       format.atom

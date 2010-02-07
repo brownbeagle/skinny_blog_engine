@@ -40,8 +40,21 @@ Post objects have the following attributes:
 
   path - The path of the actual post file
   id - The post name via the path. E.g. post_hello_world.html.erb is hello_world
-  title - A humanized id.
-  updated_at - Time the file was last updated according to File::mtime.
+  *title - A humanized id.
+  *updated_at - Time the file was last updated according to File::mtime.
+  *created_at - Time the post was created.
+  
+You can override the attributes marked with * in the meta.yml file at app/views/posts/meta.yml
+
+The format of the file is a simple Hash of key=>value pairs indexed by the blog post id. For example ...
+
+  # app/views/posts/meta.yml
+  ---
+    'post1':
+      created_at: <%= Date.new(2010, 2, 7)
+    'post2':
+      title: Brown Beagle Software
+
 
 ==== ATOM Feed
 
