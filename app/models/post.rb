@@ -1,16 +1,11 @@
 class Post
   POSTS_PATH = "#{RAILS_ROOT}/app/views/posts"
 
-  attr_reader :file, :id, :title, :updated_at, :created_at
+  attr_reader :file, :id, :title, :updated_at, :created_at, :post_meta
 
   def initialize(path)
-    # Load default meta values.
-    meta = if File.exists?(POSTS_PATH+'/meta.yml')
-      parsed_yaml = ERB.new(IO.read(POSTS_PATH+'/meta.yml')).result
-      YAML::load(parsed_yaml)
-    else
-      {}
-    end
+    # Fetch meta data for blog post.
+    @post_meta = meta[@id]
 
     # The path of the source file.
     @file = path
@@ -20,18 +15,29 @@ class Post
     @id = name
 
     # Create a default set of meta values for this post.
-    meta[@id] ||= {}
-    meta[@id].reverse_merge!({
+    @post_meta[@id] ||= {}
+    @post_meta[@id].reverse_merge!({
       'title' => nil,
       'created_at' => nil,
       'updated_at' => nil
     })
 
     # The title of the post.
-    @title = meta[@id]['title'] || name.humanize
+    @title = @post_meta[@id]['title'] || name.humanize
     # When this post created and updated.
-    @updated_at = meta[@id]['updated_at'] || File::mtime(file)
-    @created_at = meta[@id]['created_at'] || @updated_at
+    @updated_at = @post_meta[@id]['updated_at'] || File::mtime(file)
+    @created_at = @post_meta[@id]['created_at'] || @updated_at
+  end
+
+  # Return meta data for blog.
+  def self.meta
+    m = if File.exists?(POSTS_PATH+'/meta.yml')
+      parsed_yaml = ERB.new(IO.read(POSTS_PATH+'/meta.yml')).result
+      YAML::load(parsed_yaml)
+    else
+      {}
+    end
+    return m
   end
 
   # Return all posts, most recent updated first.
